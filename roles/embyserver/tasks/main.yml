@@ -1,0 +1,26 @@
+- name: Adicionando Emby repository key no apt
+  apt_key:
+    url: "http://download.opensuse.org/repositories/home:/emby/xUbuntu_16.04/Release.key"
+    keyring: "/etc/apt/trusted.gpg.d/emby-server.gpg"
+    state: present
+  become: yes
+
+- name: Instalando Emby repository
+  apt_repository:
+   repo: "deb http://download.opensuse.org/repositories/home:/emby/xUbuntu_16.04/ /"
+   filename: "emby-server"
+   state: present
+  become: yes
+
+- name: Atualizando cache do repository e Instalando o EmbyServer
+  apt:
+    name: emby-server
+    update_cache: yes
+    state: latest
+    allow_unauthenticated: yes
+  become: yes
+
+- name: Reiniciando o Serviço do EmbyServer
+  service:
+    name: emby-server
+  state: restarted

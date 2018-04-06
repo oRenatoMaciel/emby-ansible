@@ -1,0 +1,5 @@
+- hosts: embyserver
+  remote_user: renatomaciel
+  become: yes
+  roles:
+  - embyserver
